@@ -166,12 +166,11 @@ export default {
             const id = Math.random().toString(36).substr(2, 9);
             daysDOM.push(
               h('div', {
-                class: ['container'],
                 style: 'width: var(--highlight-height); height: var(--highlight-height);',
               },
               [
                 h('div', {
-                  class: ['round'],
+                  class: ['round-week-selector-button'],
                 },
                 [
                   h('input', {

@@ -807,11 +807,11 @@ export default {
   }
 }
 
-.round {
+.round-week-selector-button {
   position: relative;
 }
 
-.round label {
+.round-week-selector-button label {
   background-color: #fff;
   border: 1px solid #ccc;
   border-radius: 50%;
@@ -823,7 +823,7 @@ export default {
   width: 28px;
 }
 
-.round label:after {
+.round-week-selector-button label:after {
   border: 2px solid #fff;
   border-top: none;
   border-right: none;
@@ -837,16 +837,16 @@ export default {
   width: 12px;
 }
 
-.round input[type="checkbox"] {
+.round-week-selector-button input[type="checkbox"] {
   visibility: hidden;
 }
 
-.round input[type="checkbox"]:checked + label {
+.round-week-selector-button input[type="checkbox"]:checked + label {
   background-color: #66bb6a;
   border-color: #66bb6a;
 }
 
-.round input[type="checkbox"]:checked + label:after {
+.round-week-selector-button input[type="checkbox"]:checked + label:after {
   opacity: 1;
 }
 
