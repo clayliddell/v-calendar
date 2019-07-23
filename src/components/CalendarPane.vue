@@ -96,7 +96,7 @@ export default {
       },
       [
         this.getWeekDayLabels(h, this.theme),
-        this.getDays(h, this.theme),
+        this.getDays(h),
       ],
     );
 
@@ -151,19 +151,19 @@ export default {
     refresh() {
       this.$refs.days.forEach(d => d.refresh());
     },
-    getDays(h, theme) {
-      var daysDOM = []
-      var vm = this
+    getDays(h) {
+      var daysDOM = [];
+      var vm = this;
 
-      let days = this.page.days
+      const days = this.page.days;
 
       for (let i = 0; i < days.length; i++) {
-        let day = days[i]
+        const day = days[i];
         if (i % 7 === 0 && this.weekSelector) {
           if (day.inMonth) {
-            let firstDayOfWeek = days[i]
-            let lastDayOfWeek = days[i+6]
-            let id = Math.random().toString(36).substr(2, 9)
+            const firstDayOfWeek = days[i];
+            const lastDayOfWeek = days[i + 6];
+            const id = Math.random().toString(36).substr(2, 9);
             daysDOM.push(
               h('div', {
                 class: ['container'],
@@ -176,29 +176,28 @@ export default {
                 [
                   h('input', {
                     attrs: {
-                      id: 'checkbox' + id,
+                      id,
                       type: 'checkbox',
                     },
                     on: {
-                      click: () => vm.$emit('weekselected', {start: firstDayOfWeek.date, end: lastDayOfWeek.date}),
+                      click: () => vm.$emit('weekselected', { start: firstDayOfWeek.date, end: lastDayOfWeek.date }),
                     },
                   }),
                   h('label', {
                     attrs: {
-                      for: 'checkbox' + id,
+                      for: id,
                     },
                   }),
-                ])
-              ])
-            )
+                ]),
+              ]),
+            );
           } else {
-            console.log(day)
             daysDOM.push(
               h('div', {
                 class: ['container'],
                 style: 'width: var(--highlight-height); height: var(--highlight-height);',
-              })
-            )
+              }),
+            );
           }
         }
         daysDOM.push(h(CalendarDay, {
@@ -213,26 +212,26 @@ export default {
           key: day.id,
           ref: 'days',
           refInFor: true,
-        }))
+        }));
       }
 
-      return daysDOM
+      return daysDOM;
     },
     generateRandomID() {
-      return Math.random().toString(36).substr(2, 9)
+      return Math.random().toString(36).substr(2, 9);
     },
     getWeekDayLabels(h, theme) {
-      var labels = []
+      let labels = [];
       if (this.weekSelector) {
         labels.push(
           h(
             'div',
             {
               key: 1,
-              class: ['vc-weekday', theme.weekdays]
+              class: ['vc-weekday', theme.weekdays],
             },
-          )
-        )
+          ),
+        );
       }
       labels = labels.concat(this.weekdayLabels.map((wl, i) =>
           h(
@@ -243,11 +242,11 @@ export default {
             },
             [wl],
           ),
-        )
-      )
+        ),
+      );
 
-      return labels
-    }
+      return labels;
+    },
   },
 };
 </script>

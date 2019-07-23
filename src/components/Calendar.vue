@@ -67,7 +67,7 @@ export default {
           },
           weekselected: (e) => {
             this.$emit('weekselected', e);
-          }
+          },
         },
         scopedSlots: this.$scopedSlots,
         key: page.key,
@@ -372,7 +372,6 @@ export default {
       this.refreshPages();
     },
     attributes(val) {
-      console.log("REFRESH")
       const { adds, deletes } = this.store.refresh(val);
       this.refreshAttrs(this.pages, adds, deletes);
     },
