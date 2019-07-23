@@ -88,38 +88,15 @@ export default {
       {
         class: 'vc-weeks',
         props: {
-          rows: 7,
-          columns: 7,
+          rows: 6,
+          columns: 8,
           columnWidth: '1fr',
           disableFocus: true,
         },
       },
       [
-        ...this.weekdayLabels.map((wl, i) =>
-          h(
-            'div',
-            {
-              key: i + 1,
-              class: ['vc-weekday', this.theme.weekdays],
-            },
-            [wl],
-          ),
-        ),
-        ...this.page.days.map(day =>
-          h(CalendarDay, {
-            attrs: {
-              ...this.$attrs,
-              day,
-            },
-            on: {
-              ...this.$listeners,
-            },
-            scopedSlots: this.$scopedSlots,
-            key: day.id,
-            ref: 'days',
-            refInFor: true,
-          }),
-        ),
+        this.getWeekDayLabels(h, this.theme),
+        this.getDays(h, this.theme),
       ],
     );
 
@@ -136,6 +113,7 @@ export default {
     page: Object,
     titlePosition: String,
     navVisibility: String,
+    weekSelector: Boolean,
     canMove: {
       type: Function,
       default: () => true,
@@ -173,6 +151,103 @@ export default {
     refresh() {
       this.$refs.days.forEach(d => d.refresh());
     },
+    getDays(h, theme) {
+      var daysDOM = []
+      var vm = this
+
+      let days = this.page.days
+
+      for (let i = 0; i < days.length; i++) {
+        let day = days[i]
+        if (i % 7 === 0 && this.weekSelector) {
+          if (day.inMonth) {
+            let firstDayOfWeek = days[i]
+            let lastDayOfWeek = days[i+6]
+            let id = Math.random().toString(36).substr(2, 9)
+            daysDOM.push(
+              h('div', {
+                class: ['container'],
+                style: 'width: var(--highlight-height); height: var(--highlight-height);',
+              },
+              [
+                h('div', {
+                  class: ['round'],
+                },
+                [
+                  h('input', {
+                    attrs: {
+                      id: 'checkbox' + id,
+                      type: 'checkbox',
+                    },
+                    on: {
+                      click: () => vm.$emit('weekselected', {start: firstDayOfWeek.date, end: lastDayOfWeek.date}),
+                    },
+                  }),
+                  h('label', {
+                    attrs: {
+                      for: 'checkbox' + id,
+                    },
+                  }),
+                ])
+              ])
+            )
+          } else {
+            console.log(day)
+            daysDOM.push(
+              h('div', {
+                class: ['container'],
+                style: 'width: var(--highlight-height); height: var(--highlight-height);',
+              })
+            )
+          }
+        }
+        daysDOM.push(h(CalendarDay, {
+          attrs: {
+            ...this.$attrs,
+            day,
+          },
+          on: {
+            ...this.$listeners,
+          },
+          scopedSlots: this.$scopedSlots,
+          key: day.id,
+          ref: 'days',
+          refInFor: true,
+        }))
+      }
+
+      return daysDOM
+    },
+    generateRandomID() {
+      return Math.random().toString(36).substr(2, 9)
+    },
+    getWeekDayLabels(h, theme) {
+      var labels = []
+      if (this.weekSelector) {
+        labels.push(
+          h(
+            'div',
+            {
+              key: 1,
+              class: ['vc-weekday', theme.weekdays]
+            },
+          )
+        )
+      }
+      labels = labels.concat(this.weekdayLabels.map((wl, i) =>
+          h(
+            'div',
+            {
+              key: i + 2,
+              class: ['vc-weekday', theme.weekdays],
+            },
+            [wl],
+          ),
+        )
+      )
+
+      return labels
+    }
   },
 };
 </script>

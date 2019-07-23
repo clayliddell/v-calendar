@@ -52,6 +52,7 @@ export default {
           minPage: this.minPage_,
           maxPage: this.maxPage_,
           canMove: this.canMove,
+          weekSelector: this.weekSelector,
         },
         on: {
           ...this.$listeners,
@@ -64,6 +65,9 @@ export default {
             this.lastFocusedDay = null;
             this.$emit('dayfocusout', e);
           },
+          weekselected: (e) => {
+            this.$emit('weekselected', e);
+          }
         },
         scopedSlots: this.$scopedSlots,
         key: page.key,
@@ -256,6 +260,7 @@ export default {
     },
     step: Number,
     titlePosition: String,
+    weekSelector: Boolean,
     isExpanded: Boolean,
     fromDate: Date,
     toDate: Date,
@@ -367,6 +372,7 @@ export default {
       this.refreshPages();
     },
     attributes(val) {
+      console.log("REFRESH")
       const { adds, deletes } = this.store.refresh(val);
       this.refreshAttrs(this.pages, adds, deletes);
     },
@@ -408,6 +414,10 @@ export default {
     }
   },
   methods: {
+    refreshAttr(val) {
+      const { adds, deletes } = this.store.refresh(val);
+      this.refreshAttrs(this.pages, adds, deletes);
+    },
     refreshLocale() {
       this.sharedState.locale = this.locale_;
       this.sharedState.masks = this.locale_.masks;
@@ -796,5 +806,52 @@ export default {
   &.title-right {
     justify-content: flex-start;
   }
+}
+
+.round {
+  position: relative;
+}
+
+.round label {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 50%;
+  cursor: pointer;
+  height: 28px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 28px;
+}
+
+.round label:after {
+  border: 2px solid #fff;
+  border-top: none;
+  border-right: none;
+  content: "";
+  height: 6px;
+  left: 7px;
+  opacity: 0;
+  position: absolute;
+  top: 8px;
+  transform: rotate(-45deg);
+  width: 12px;
+}
+
+.round input[type="checkbox"] {
+  visibility: hidden;
+}
+
+.round input[type="checkbox"]:checked + label {
+  background-color: #66bb6a;
+  border-color: #66bb6a;
+}
+
+.round input[type="checkbox"]:checked + label:after {
+  opacity: 1;
+}
+
+body {
+  background-color: #f1f2f3;
 }
 </style>

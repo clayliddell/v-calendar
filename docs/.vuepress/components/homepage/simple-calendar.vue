@@ -138,6 +138,9 @@ thisMonth--;
 nextMonth--;
 
 export default {
+  mounted() {
+    console.log(new Date(thisMonthYear, thisMonth, 1))
+  },
   data() {
     return {
       highlights: [
