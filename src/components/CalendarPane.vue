@@ -193,7 +193,6 @@ export default {
           } else {
             daysDOM.push(
               h('div', {
-                class: ['container'],
                 style: 'width: var(--highlight-height); height: var(--highlight-height);',
               }),
             );
