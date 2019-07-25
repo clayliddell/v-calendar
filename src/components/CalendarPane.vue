@@ -160,10 +160,10 @@ export default {
       for (let i = 0; i < days.length; i++) {
         const day = days[i];
         if (i % 7 === 0 && this.weekSelector) {
-          if (day.inMonth) {
+          if (day.inMonth && !day.isDisabled) {
             const firstDayOfWeek = days[i];
             const lastDayOfWeek = days[i + 6];
-            const id = Math.random().toString(36).substr(2, 9);
+            const id = this.generateRandomID();
             daysDOM.push(
               h('div', {
                 style: 'width: var(--highlight-height); height: var(--highlight-height);',
