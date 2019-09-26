@@ -9,7 +9,7 @@
 			:rows="2"
 			:columns="$screens({ default: 1, lg: 2 })"
 			week-selector
-			multiple-week-selector
+			single-week-selector
 			v-on:weekselected="addWeek($event)"
 			:min-date="dateRange.start"
 			:max-date="dateRange.end"

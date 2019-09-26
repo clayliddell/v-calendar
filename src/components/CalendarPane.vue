@@ -116,7 +116,7 @@ export default {
     titlePosition: String,
     navVisibility: String,
     weekSelector: Boolean,
-    multipleWeekSelector: Boolean,
+    singleWeekSelector: Boolean,
     canMove: {
       type: Function,
       default: () => true,
@@ -164,7 +164,7 @@ export default {
         const day = days[i];
         if (i % 7 === 0 && this.weekSelector) {
           if (day.inMonth && !day.isDisabled) {
-            if (this.multipleWeekSelector) {
+            if (this.singleWeekSelector) {
               const firstDayOfWeek = days[i];
               const lastDayOfWeek = days[i + 6];
               const id = this.generateRandomID();

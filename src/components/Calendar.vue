@@ -54,7 +54,7 @@ export default {
           maxPage: this.maxPage_,
           canMove: this.canMove,
           weekSelector: this.weekSelector,
-          multipleWeekSelector: this.multipleWeekSelector,
+          singleWeekSelector: this.singleWeekSelector,
         },
         on: {
           ...this.$listeners,
@@ -264,7 +264,7 @@ export default {
     step: Number,
     titlePosition: String,
     weekSelector: Boolean,
-    multipleWeekSelector: Boolean,
+    singleWeekSelector: Boolean,
     isExpanded: Boolean,
     fromDate: Date,
     toDate: Date,
