@@ -3,6 +3,7 @@ import Popover from './Popover';
 import PopoverRef from './PopoverRef';
 import CalendarNav from './CalendarNav';
 import CalendarDay from './CalendarDay';
+import CalendarCheckbox from './CalendarCheckbox';
 import Grid from './Grid';
 import {
   propOrDefaultMixin,
@@ -110,10 +111,12 @@ export default {
     );
   },
   props: {
+    selected: String,
     page: Object,
     titlePosition: String,
     navVisibility: String,
     weekSelector: Boolean,
+    multipleWeekSelector: Boolean,
     canMove: {
       type: Function,
       default: () => true,
@@ -121,7 +124,7 @@ export default {
   },
   data() {
     return {
-      navPopoverId: createGuid(),
+      navPopoverId: createGuid()
     };
   },
   computed: {
@@ -161,35 +164,55 @@ export default {
         const day = days[i];
         if (i % 7 === 0 && this.weekSelector) {
           if (day.inMonth && !day.isDisabled) {
-            const firstDayOfWeek = days[i];
-            const lastDayOfWeek = days[i + 6];
-            const id = this.generateRandomID();
-            daysDOM.push(
-              h('div', {
-                style: 'width: var(--highlight-height); height: var(--highlight-height);',
-              },
-              [
+            if (this.multipleWeekSelector) {
+              const firstDayOfWeek = days[i];
+              const lastDayOfWeek = days[i + 6];
+              const id = this.generateRandomID();
+              daysDOM.push(
+                h(CalendarCheckbox, {
+                  props: {
+                    selected: this.selected,
+                    firstDayOfWeek: firstDayOfWeek.date,
+                    lastDayOfWeek: lastDayOfWeek.date
+                  },
+                  on: {
+                    weekselected: week => {
+                      this.$emit('weekselected', week);
+                    }
+                  }
+                })
+              );
+            } else {
+              const firstDayOfWeek = days[i];
+              const lastDayOfWeek = days[i + 6];
+              const id = this.generateRandomID();
+              daysDOM.push(
                 h('div', {
-                  class: ['round-week-selector-button'],
+                  style: 'width: var(--highlight-height); height: var(--highlight-height);',
                 },
                 [
-                  h('input', {
-                    attrs: {
-                      id,
-                      type: 'checkbox',
-                    },
-                    on: {
-                      click: () => vm.$emit('weekselected', { start: firstDayOfWeek.date, end: lastDayOfWeek.date }),
-                    },
-                  }),
-                  h('label', {
-                    attrs: {
-                      for: id,
-                    },
-                  }),
+                  h('div', {
+                    class: ['round-week-selector-button'],
+                  },
+                  [
+                    h('input', {
+                      attrs: {
+                        id,
+                        type: 'checkbox',
+                      },
+                      on: {
+                        click: () => vm.$emit('weekselected', { start: firstDayOfWeek.date, end: lastDayOfWeek.date }),
+                      },
+                    }),
+                    h('label', {
+                      attrs: {
+                        for: id,
+                      },
+                    }),
+                  ]),
                 ]),
-              ]),
-            );
+              );
+            }
           } else {
             daysDOM.push(
               h('div', {

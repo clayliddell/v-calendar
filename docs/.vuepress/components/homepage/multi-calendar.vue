@@ -3,7 +3,17 @@
     <h2 class="h2">Multi-Paned Calendars</h2>
     <p class="text-lg font-medium text-gray-600 mb-6">Responsive multi-row and column layouts</p>
     <div class="flex justify-center">
-      	<v-calendar ref="cal" :attributes="highlights" :rows="2" :columns="$screens({ default: 1, lg: 2 })" week-selector v-on:weekselected="addWeek($event)" :min-date="dateRange.start" :max-date="dateRange.end"/>
+      	<v-calendar
+			ref="cal"
+			:attributes="highlights"
+			:rows="2"
+			:columns="$screens({ default: 1, lg: 2 })"
+			week-selector
+			multiple-week-selector
+			v-on:weekselected="addWeek($event)"
+			:min-date="dateRange.start"
+			:max-date="dateRange.end"
+		/>
     </div>
   </div>
 </template>
@@ -43,14 +53,10 @@ export default {
             this.dateRange.end = new Date(last.setDate(two_years_later.getDate() - two_years_later.getDay() - 1)) // Get last day of previous week
         },
 		addWeek(week) {
-			let oldLength = this.highlights[0].dates.length
-			let newDates = this.highlights[0].dates.filter(date => (date.start !== week.start))
-			let newLength = newDates.length
-			
-			if (newLength == oldLength) {
-				this.highlights[0].dates.push(week)
+			if (JSON.stringify(this.highlights[0].dates[0]) == JSON.stringify(week)) {
+				this.highlights[0].dates = []
 			} else {
-				this.highlights[0].dates = newDates
+				this.highlights[0].dates[0] = week
 			}
 
 			this.$refs.cal.refreshAttr(this.highlights)

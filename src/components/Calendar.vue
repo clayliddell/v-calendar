@@ -47,12 +47,14 @@ export default {
           attributes: this.store,
         },
         props: {
+          selected: this.selected,
           titlePosition: this.titlePosition_,
           page,
           minPage: this.minPage_,
           maxPage: this.maxPage_,
           canMove: this.canMove,
           weekSelector: this.weekSelector,
+          multipleWeekSelector: this.multipleWeekSelector,
         },
         on: {
           ...this.$listeners,
@@ -65,8 +67,9 @@ export default {
             this.lastFocusedDay = null;
             this.$emit('dayfocusout', e);
           },
-          weekselected: (e) => {
-            this.$emit('weekselected', e);
+          weekselected: week => {
+            this.selected = week.id;
+            this.$emit('weekselected', week);
           },
         },
         scopedSlots: this.$scopedSlots,
@@ -261,6 +264,7 @@ export default {
     step: Number,
     titlePosition: String,
     weekSelector: Boolean,
+    multipleWeekSelector: Boolean,
     isExpanded: Boolean,
     fromDate: Date,
     toDate: Date,
@@ -278,6 +282,7 @@ export default {
   },
   data() {
     return {
+      selected: null,
       pages: [],
       store: null,
       lastFocusedDay: null,
