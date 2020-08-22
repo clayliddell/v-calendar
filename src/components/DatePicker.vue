@@ -5,6 +5,7 @@ import PopoverRef from './PopoverRef';
 import SinglePicker from '@/utils/pickers/single';
 import MultiplePicker from '@/utils/pickers/multiple';
 import RangePicker from '@/utils/pickers/range';
+import WeekPicker from '@/utils/pickers/week';
 import {
   rootMixin,
   propOrDefaultMixin,
@@ -210,6 +211,8 @@ export default {
           return new MultiplePicker(opts);
         case 'range':
           return new RangePicker(opts);
+        case 'week':
+          return new WeekPicker(opts);
         default:
           return new SinglePicker(opts);
       }
