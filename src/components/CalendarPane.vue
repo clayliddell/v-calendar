@@ -89,7 +89,7 @@ export default {
       {
         class: 'vc-weeks',
         props: {
-          rows: 6,
+          rows: 7,
           columns: this.weekSelector ? 8 : 7,
           columnWidth: '1fr',
           disableFocus: true,
